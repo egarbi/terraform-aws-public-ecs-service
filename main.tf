@@ -50,12 +50,6 @@ variable "container_definitions" {}
 
 variable "container_port" {}
 
-variable "healthcheckproto" {
-  description = "Protocol to use to connect with target. ALB will use it to see if service is helathy"
-  default = ""
-}
-
-
 /** 
 * Resources
 */
@@ -83,7 +77,6 @@ module "publicALB" {
   hosts               = [ "${var.dns_name}" ]
   services            = [ "${var.name}" ]
   backend_port        = "${var.container_port}"
-  healthcheckproto    = "${var.healthcheckproto}"
 }
 
 module "ecs_service" {
