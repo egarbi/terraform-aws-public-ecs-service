@@ -50,6 +50,8 @@ variable "container_definitions" {}
 
 variable "container_port" {}
 
+variable "container_proto" {}
+
 
 /** 
 * Resources
@@ -78,6 +80,7 @@ module "publicALB" {
   hosts               = [ "${var.dns_name}" ]
   services            = [ "${var.name}" ]
   backend_port        = "${var.container_port}"
+  backend_proto       = "${var.container_proto}"
 }
 
 module "ecs_service" {
