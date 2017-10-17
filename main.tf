@@ -64,7 +64,7 @@ module "publicALB" {
   environment         = "${var.environment}"
   security_groups     = "${var.security_groups}"
   vpc_id              = "${var.vpc_id}"
-  log_bucket          = "${aws_s3_bucket.main.name}"
+  log_bucket          = "${aws_s3_bucket.main.id}"
   zone_id             = "${var.zone_id}"
   ssl_arn             = "${var.ssl_arn}"
   ssl_policy          = "${var.ssl_policy}"
