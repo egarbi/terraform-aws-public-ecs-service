@@ -60,7 +60,7 @@ resource "aws_s3_bucket" "main" {
 module "publicALB" {
   source                 = "git::https://github.com/egarbi/terraform-aws-alb-per-host?ref=0.0.1"
   name                = "${var.name}"
-  subnet_ids          = "${var.subnets}"
+  subnet_ids          = "${var.subnet_ids}"
   environment         = "${var.environment}"
   security_groups     = "${var.security_groups}"
   vpc_id              = "${var.vpc_id}"
@@ -75,7 +75,7 @@ module "publicALB" {
 module "ecs_service" {
   source          = "git::https://github.com/egarbi/terraform-aws-ecs-service?ref=1.0.3"
   name            = "${var.name}"
-  environment     = "${var.environments}"
+  environment     = "${var.environment}"
   desired_count   = "${var.desired_count}"
   cluster         = "${var.cluster}"
   iam_role        = "${var.service_iam_role}"
