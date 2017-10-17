@@ -1,0 +1,84 @@
+/** 
+* Variables
+*/
+
+variable "name" {}
+
+variable "dns_name" {}
+
+variable "environment" {
+  description = "Environment tag, e.g prod"
+}
+
+variable "subnet_ids" {
+  type = "list"
+  description = "List of subnets where LB live, tipically one per AZ"
+}
+
+variable "security_groups" {
+  type = "list"
+  description = "List of security group to associate with the LB"
+}
+
+variable "vpc_id" {}
+
+variable "zone_id" {}
+
+variable "ssl_arn" {}
+
+variable "ssl_policy" {
+  default = "ELBSecurityPolicy-2015-05"
+}
+
+variable "desired_count" {
+  description = "How many task do you want to have running"
+  default = 1
+}
+
+variable "cluster" {}
+
+variable "service_iam_role" {}
+
+variable "container_definitions" {}
+
+
+/** 
+* Resources
+*/
+
+resource "aws_s3_bucket" "main" {
+  bucket = "${var.name}-${var.environment}-logs"
+  acl    = "private"
+
+  tags {
+    Name        = "${var.name} logs"
+    Environment = "${var.environment}"
+  }
+}
+
+
+module "publicALB" {
+  source                 = "git::https://github.com/egarbi/terraform-aws-alb-per-host?ref=0.0.1"
+  name                = "${var.name}"
+  subnet_ids          = "${var.subnets}"
+  environment         = "${var.environment}"
+  security_groups     = "${var.security_groups}"
+  vpc_id              = "${$var.vpc_id}"
+  log_bucket          = "${aws_s3_bucket.main.name}"
+  zone_id             = "${var.zone_id}"
+  ssl_arn             = "${var.ssl_arn}"
+  ssl_policy          = "${var.ssl_policy}"
+  hosts               = "${var.dns_name}"
+  services            = "${var.name}"
+}
+
+module "ecs_service" {
+  source          = "git::https://github.com/egarbi/terraform-aws-ecs-service?ref=1.0.3"
+  name            = "${var.name}"
+  environment     = "${var.environments}"
+  desired_count   = "${var.desired_count}"
+  cluster         = "${var.cluster}"
+  iam_role        = "${var.service_iam_role}"
+  target_group    = "${module.publicALB.target_groups[0]}"
+  container_definitions = "${var.container_definitions}"
+}
