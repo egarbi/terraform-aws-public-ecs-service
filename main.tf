@@ -4,8 +4,6 @@
 
 variable "name" {}
 
-variable "account_id" {}
-
 variable "dns_name" {}
 
 variable "alb_logs_expiration_enabled" {
@@ -61,7 +59,6 @@ module "s3_logs" {
   source                  = "git::https://github.com/egarbi/terraform-aws-s3-logs?ref=0.0.2"
   name                    = "${var.name}"
   environment             = "${var.environment}"
-  account_id              = "${var.account_id}"
   logs_expiration_enabled = "${var.alb_logs_expiration_enabled}"
   logs_expiration_days    = "${var.alb_logs_expiration_days}"
 }
