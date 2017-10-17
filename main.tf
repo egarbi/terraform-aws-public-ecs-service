@@ -58,7 +58,7 @@ variable "container_port" {}
 */
 
 module "s3_logs" {
-  source                  = "git::https://github.com/egarbi/terraform-aws-s3-logs?ref=0.0.1"
+  source                  = "git::https://github.com/egarbi/terraform-aws-s3-logs?ref=0.0.2"
   name                    = "${var.name}"
   environment             = "${var.environment}"
   account_id              = "${var.account_id}"
