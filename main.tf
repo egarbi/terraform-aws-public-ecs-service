@@ -41,6 +41,8 @@ variable "service_iam_role" {}
 
 variable "container_definitions" {}
 
+variable "container_port" {}
+
 
 /** 
 * Resources
@@ -80,5 +82,6 @@ module "ecs_service" {
   cluster         = "${var.cluster}"
   iam_role        = "${var.service_iam_role}"
   target_group    = "${module.publicALB.target_groups[0]}"
+  container_port  = "${var.container_port}"
   container_definitions = "${var.container_definitions}"
 }
