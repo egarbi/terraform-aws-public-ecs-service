@@ -68,8 +68,8 @@ module "publicALB" {
   zone_id             = "${var.zone_id}"
   ssl_arn             = "${var.ssl_arn}"
   ssl_policy          = "${var.ssl_policy}"
-  hosts               = "${var.dns_name}"
-  services            = "${var.name}"
+  hosts               = [ "${var.dns_name}" ]
+  services            = [ "${var.name}" ]
 }
 
 module "ecs_service" {
