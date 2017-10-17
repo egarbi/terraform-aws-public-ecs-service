@@ -4,7 +4,16 @@
 
 variable "name" {}
 
+variable "account_id" {}
+
 variable "dns_name" {}
+
+variable "alb_logs_expiration_enabled" {
+  default "true"
+}
+variable "alb_logs_expiration_days" {
+  default "90"
+}
 
 variable "environment" {
   description = "Environment tag, e.g prod"
@@ -48,14 +57,13 @@ variable "container_port" {}
 * Resources
 */
 
-resource "aws_s3_bucket" "main" {
-  bucket = "${var.name}-${var.environment}-logs"
-  acl    = "private"
-
-  tags {
-    Name        = "${var.name} logs"
-    Environment = "${var.environment}"
-  }
+module "s3_logs" {
+  source                  = "git::https://github.com/egarbi/terraform-aws-s3-logs?ref=0.0.1"
+  name                    = "${var.name}"
+  environment             = "${var.environment}"
+  account_id              = "${var.account_id}"
+  logs_expiration_enabled = "${var.alb_logs_expiration_enabled}"
+  logs_expiration_days    = "${var.alb_logs_expiration_days}"
 }
 
 
@@ -66,7 +74,7 @@ module "publicALB" {
   environment         = "${var.environment}"
   security_groups     = "${var.security_groups}"
   vpc_id              = "${var.vpc_id}"
-  log_bucket          = "${aws_s3_bucket.main.id}"
+  log_bucket          = "${module.s3_logs.id}"
   zone_id             = "${var.zone_id}"
   ssl_arn             = "${var.ssl_arn}"
   ssl_policy          = "${var.ssl_policy}"
