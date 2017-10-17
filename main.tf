@@ -72,6 +72,7 @@ module "publicALB" {
   ssl_policy          = "${var.ssl_policy}"
   hosts               = [ "${var.dns_name}" ]
   services            = [ "${var.name}" ]
+  backend_port        = "${var.container_port}"
 }
 
 module "ecs_service" {
