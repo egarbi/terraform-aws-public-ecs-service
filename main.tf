@@ -63,7 +63,7 @@ module "publicALB" {
   subnet_ids          = "${var.subnets}"
   environment         = "${var.environment}"
   security_groups     = "${var.security_groups}"
-  vpc_id              = "${$var.vpc_id}"
+  vpc_id              = "${var.vpc_id}"
   log_bucket          = "${aws_s3_bucket.main.name}"
   zone_id             = "${var.zone_id}"
   ssl_arn             = "${var.ssl_arn}"
