@@ -9,10 +9,10 @@ variable "account_id" {}
 variable "dns_name" {}
 
 variable "alb_logs_expiration_enabled" {
-  default "true"
+  default = "true"
 }
 variable "alb_logs_expiration_days" {
-  default "90"
+  default = 90
 }
 
 variable "environment" {
