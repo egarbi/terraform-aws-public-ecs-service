@@ -50,6 +50,16 @@ variable "container_definitions" {}
 
 variable "container_port" {}
 
+variable "healthcheck" {
+  default = {
+    healthy_threshold   = 2
+    unhealthy_threshold = 5
+    timeout             = 5
+    path                = "/"
+    interval            = 30
+  }
+}
+
 /** 
 * Resources
 */
@@ -77,6 +87,7 @@ module "publicALB" {
   hosts               = [ "${var.dns_name}" ]
   services            = [ "${var.name}" ]
   backend_port        = "${var.container_port}"
+  healthcheck         = "${var.healthcheck}"
 }
 
 module "ecs_service" {
