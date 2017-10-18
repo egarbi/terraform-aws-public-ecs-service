@@ -74,7 +74,7 @@ module "s3_logs" {
 
 
 module "publicALB" {
-  source                 = "git::https://github.com/egarbi/terraform-aws-alb-per-host?ref=develop"
+  source                 = "git::https://github.com/egarbi/terraform-aws-alb-per-host?ref=0.0.4"
   name                = "${var.name}"
   subnet_ids          = "${var.subnet_ids}"
   environment         = "${var.environment}"
