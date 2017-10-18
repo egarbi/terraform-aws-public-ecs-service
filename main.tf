@@ -1,4 +1,4 @@
-/** 
+/**
 * Variables
 */
 
@@ -60,7 +60,7 @@ variable "healthcheck" {
   }
 }
 
-/** 
+/**
 * Resources
 */
 
@@ -74,7 +74,7 @@ module "s3_logs" {
 
 
 module "publicALB" {
-  source                 = "git::https://github.com/egarbi/terraform-aws-alb-per-host?ref=0.0.3"
+  source                 = "git::https://github.com/egarbi/terraform-aws-alb-per-host?ref=develop"
   name                = "${var.name}"
   subnet_ids          = "${var.subnet_ids}"
   environment         = "${var.environment}"
@@ -86,7 +86,7 @@ module "publicALB" {
   ssl_policy          = "${var.ssl_policy}"
   hosts               = [ "${var.dns_name}" ]
   services            = [ "${var.name}" ]
-  backend_port        = "${var.container_port}"
+  ports               = [ "${var.container_port}" ]
   healthcheck         = "${var.healthcheck}"
 }
 
