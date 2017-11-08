@@ -91,7 +91,7 @@ module "publicALB" {
 }
 
 module "ecs_service" {
-  source          = "git::https://github.com/egarbi/terraform-aws-ecs-service?ref=1.0.3"
+  source          = "git::https://github.com/egarbi/terraform-aws-ecs-service?ref=1.0.4"
   name            = "${var.name}"
   environment     = "${var.environment}"
   desired_count   = "${var.desired_count}"
