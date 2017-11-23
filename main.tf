@@ -101,3 +101,7 @@ module "ecs_service" {
   container_port  = "${var.container_port}"
   container_definitions = "${var.container_definitions}"
 }
+
+output "alb_dns" {
+  value = "${module.publicALB.dns}"
+}
